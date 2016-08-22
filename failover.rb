@@ -2,6 +2,8 @@ require 'sinatra/base'
 require 'pg'
 require 'yaml'
 require 'sequel'
+require 'active_record'
+
 
 class Failover < Sinatra::Base
   get "/" do
@@ -28,6 +30,13 @@ class Failover < Sinatra::Base
     db["SELECT CURRENT_TIMESTAMP"].each do |row|
       @pre = row.inspect
     end
+    erb :pre
+  end
+
+  get "/activerecord" do
+    ActiveRecord::Base.establish_connection(ENV["DATABASE_URL"])
+    result = ActiveRecord::Base.connection.execute("SELECT CURRENT_TIMESTAMP")
+    @pre = result[0].inspect
     erb :pre
   end
 end
