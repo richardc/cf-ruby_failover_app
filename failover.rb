@@ -14,7 +14,6 @@ class Failover < Sinatra::Base
   
   get "/time" do
     db = PG.connect(ENV["DATABASE_URL"] + "?connect_timeout=2")
-    @pre = "Unknown"
     db.exec("SELECT CURRENT_TIMESTAMP") do |result|
       result.each do |row|
         @pre = row.inspect
