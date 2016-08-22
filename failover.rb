@@ -1,6 +1,7 @@
 require 'sinatra/base'
 require 'pg'
 require 'yaml'
+require 'sequel'
 
 class Failover < Sinatra::Base
   get "/" do
@@ -18,6 +19,14 @@ class Failover < Sinatra::Base
       result.each do |row|
         @pre = row.inspect
       end
+    end
+    erb :pre
+  end
+
+  get "/sequel" do
+    db = Sequel.connect(ENV["DATABASE_URL"])
+    db["SELECT CURRENT_TIMESTAMP"].each do |row|
+      @pre = row.inspect
     end
     erb :pre
   end
