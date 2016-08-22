@@ -1,9 +1,6 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    cf-autoconfig (0.2.1)
-      cf-runtime (= 0.2.0)
-    cf-runtime (0.2.0)
     daemons (1.2.4)
     eventmachine (1.2.0.1)
     pg (0.18.4)
@@ -25,7 +22,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  cf-autoconfig (~> 0.2.1)
   pg
   sequel
   sinatra

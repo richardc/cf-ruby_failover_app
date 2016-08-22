@@ -3,5 +3,4 @@ source 'https://rubygems.org'
 gem 'sinatra'
 gem 'thin'
 gem 'pg'
-gem "cf-autoconfig", "~> 0.2.1"
 gem 'sequel'
