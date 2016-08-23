@@ -44,7 +44,11 @@ class Failover < Sinatra::Base
   end
 
   get "/activerecord" do
-    result = ActiveRecord::Base.connection.execute("SELECT CURRENT_TIMESTAMP")
+    STDOUT.puts "Getting connection"
+    connection = ActiveRecord::Base.connection
+    STDOUT.puts "Got connection"
+    result = connection.execute("SELECT CURRENT_TIMESTAMP")
+    ActiveRecord::Base.connection_pool.checkin(connection)
     @pre = result[0].inspect
     erb :pre
   end
