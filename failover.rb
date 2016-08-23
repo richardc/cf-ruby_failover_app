@@ -6,6 +6,16 @@ require 'active_record'
 
 
 class Failover < Sinatra::Base
+  configure do
+    ActiveRecord::Base.establish_connection(ENV["DATABASE_URL"])
+  end
+
+  after do
+    # Return the connections back to the pool
+    # http://api.rubyonrails.org/classes/ActiveRecord/ConnectionAdapters/ConnectionHandler.html#method-i-clear_active_connections-21
+    ActiveRecord::Base.clear_active_connections!
+  end
+
   get "/" do
     "Hello world"
   end
@@ -34,7 +44,6 @@ class Failover < Sinatra::Base
   end
 
   get "/activerecord" do
-    ActiveRecord::Base.establish_connection(ENV["DATABASE_URL"])
     result = ActiveRecord::Base.connection.execute("SELECT CURRENT_TIMESTAMP")
     @pre = result[0].inspect
     erb :pre
